@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.ucne.parcial2.data.local.TicketDb
 import com.ucne.parcial2.data.remote.TicketsApi
 import dagger.Module
 import dagger.Provides
@@ -18,6 +19,21 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    @Singleton
+    @Provides
+    fun providesDatabase(@ApplicationContext context: Context): TicketDb {
+        return Room.databaseBuilder(
+            context,
+            TicketDb::class.java,
+            "Ticket.db"
+        )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun providesTicketDao(db: TicketDb) = db.ticketDao
 
     @Singleton
     @Provides
@@ -25,7 +41,7 @@ object AppModule {
         return Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
     }
 
-    /*@Singleton
+    @Singleton
     @Provides
     fun providesTePrestoApi(moshi: Moshi): TicketsApi {
         return Retrofit.Builder()
@@ -34,5 +50,5 @@ object AppModule {
             .build()
             .create(TicketsApi::class.java)
     }
-*/
+
 }
