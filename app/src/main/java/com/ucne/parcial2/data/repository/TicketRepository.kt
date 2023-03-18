@@ -17,7 +17,7 @@ class TicketRepository @Inject constructor
 
         ticketDao.insert(ticket) //insertar en la base de datos
 
-        ticketsApi.postTickets(ticket.toTicketDto())
+        //ticketsApi.postTickets(ticket.toTicketDto())
 
         ticketsApi.putTickets(1, ticket.toTicketDto())
     }

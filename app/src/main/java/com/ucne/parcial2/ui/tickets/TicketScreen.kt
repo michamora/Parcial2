@@ -1,21 +1,19 @@
 package com.ucne.parcial2.ui.tickets
 
-import android.app.DatePickerDialog
 import android.os.Build
-import android.widget.DatePicker
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.twotone.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -40,15 +38,15 @@ private fun TicketsBody(
 
     Column(modifier = Modifier.fillMaxWidth())
     {
+        Spacer(Modifier.height(20.dp))
         Icon(
-            imageVector = Icons.Filled.ArrowBack,
+            imageVector = Icons.TwoTone.ArrowCircleLeft,
             contentDescription = null,
-            modifier = Modifier
-                .size(30.dp, 30.dp)
-                .padding(4.dp)
+            modifier = Modifier.align(Alignment.Start)
+                .size(50.dp, 50.dp)
                 .clickable {
                     scope.launch {
-                        navController.navigate(Screen.TicketsList.route)
+                        navController.navigate(Screen.Start.route)
                     }
                 }
         )
@@ -56,7 +54,8 @@ private fun TicketsBody(
         Spacer(modifier = Modifier.padding(20.dp))
         Text(
             text = "Registro de Tickets", fontSize = 27.sp,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            fontWeight = FontWeight.Bold
         )
 
         Spacer(modifier = Modifier.padding(10.dp))
@@ -64,30 +63,120 @@ private fun TicketsBody(
             .padding(8.dp)
             .fillMaxWidth(),
             value = viewModel.asunto,
-            onValueChange = { it -> viewModel.asunto = it },
-            label = { Text("Asunto") })
+            onValueChange = viewModel::onAsuntoChanged,
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.TwoTone.ReceiptLong,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(33.dp)
+                        .padding(4.dp)
+                )
+            },
+            label = { Text("Asunto") },
+            isError = viewModel.asuntoError.isNotBlank(),
+            trailingIcon = {
+                if (viewModel.asuntoError.isNotBlank()) {
+                    Icon(imageVector = Icons.TwoTone.Error, contentDescription = "error")
+                }
+            }
+        )
+        if (viewModel.asuntoError.isNotBlank()) {
+            Text(
+                text = viewModel.asuntoError,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
 
         OutlinedTextField(
             modifier = Modifier
                 .padding(8.dp)
                 .fillMaxWidth(),
             value = viewModel.empresa,
-            onValueChange = { it -> viewModel.empresa = it },
-            label = { Text("Empresa") })
+            onValueChange = viewModel::onEmpresaChanged,
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.TwoTone.Domain,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(33.dp)
+                        .padding(4.dp)
+                )
+            },
+            label = { Text("Empresa") },
+        isError = viewModel.empresaError.isNotBlank(),
+        trailingIcon = {
+            if (viewModel.empresaError.isNotBlank()) {
+                Icon(imageVector = Icons.TwoTone.Error, contentDescription = "error")
+            }
+        }
+        )
+        if (viewModel.empresaError.isNotBlank()) {
+            Text(
+                text = viewModel.empresaError,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
+        OutlinedTextField(modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
+            value = viewModel.especificaciones,
+            onValueChange = viewModel::onEspecificacionesChanged,
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.TwoTone.EmojiObjects,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(33.dp)
+                        .padding(4.dp)
+                )
+            },
+            label = { Text("Especificaciones") },
+            isError = viewModel.especificacionesError.isNotBlank(),
+            trailingIcon = {
+                if (viewModel.especificacionesError.isNotBlank()) {
+                    Icon(imageVector = Icons.TwoTone.Error, contentDescription = "error")
+                }
+            }
+        )
+        if (viewModel.especificacionesError.isNotBlank()) {
+            Text(
+                text = viewModel.especificacionesError,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
 
         OutlinedTextField(modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth(),
             value = viewModel.encargadoId,
-            onValueChange = { viewModel.encargadoId = it },
-            label = { Text("Encargado") })
+            onValueChange = viewModel::onEncargadoChanged,
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.TwoTone.AssignmentInd,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(33.dp)
+                        .padding(4.dp)
+                )
+            },
+            label = { Text("Encargado") },
+            isError = viewModel.encargadoError.isNotBlank(),
+            trailingIcon = {
+                if (viewModel.encargadoError.isNotBlank()) {
+                    Icon(imageVector = Icons.TwoTone.Error, contentDescription = "error")
+                }
+            }
+        )
+        if (viewModel.encargadoError.isNotBlank()) {
+            Text(
+                text = viewModel.encargadoError,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
 
-        OutlinedTextField(modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth(),
-            value = viewModel.estatus,
-            onValueChange = { viewModel.estatus = it },
-            label = { Text("Estatus") })
+
 
         OutlinedTextField(modifier = Modifier
             .padding(8.dp)
@@ -109,16 +198,7 @@ private fun TicketsBody(
             label = { Text(text = "Fecha") }
         )
 
-        OutlinedTextField(modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth(),
-            value = viewModel.orden,
-            onValueChange = { viewModel.orden = it },
-            label = { Text("Orden") }
-        )
-
-
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentSize(Alignment.BottomCenter)
@@ -126,14 +206,28 @@ private fun TicketsBody(
             ExtendedFloatingActionButton(
                 modifier = Modifier
                     .size(124.dp, 124.dp)
-                    .align(Alignment.CenterHorizontally)
+                    .wrapContentSize(Alignment.Center),
+                text = { Text("Refresh") },
+                contentColor = Color(0xFFFFFFFF),
+                containerColor = Color(0xFF8595FF),
+                icon = { Icon(imageVector = Icons.TwoTone.Refresh, contentDescription = "Save") },
+                onClick = {
+                    viewModel.limpiar()
+                }
+            )
+            ExtendedFloatingActionButton(
+                modifier = Modifier
+                    .size(124.dp, 124.dp)
                     .wrapContentSize(Alignment.Center),
                 text = { Text("Guardar") },
-                icon = { Icon(imageVector = Icons.Filled.Save, contentDescription = "Save") },
+                contentColor = Color(0xFF444444),
+                containerColor = Color(0xFFB1E4B2),
+                icon = { Icon(imageVector = Icons.TwoTone.Save, contentDescription = "Save") },
                 onClick = {
                     viewModel.insertar()
                 }
             )
+
         }
     }
 }

@@ -7,7 +7,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.ucne.parcial2.data.local.RoomTicketsDb
 import com.ucne.parcial2.data.remote.TicketsApi
 import com.ucne.parcial2.data.repository.TicketApiRepository
-import com.ucne.parcial2.data.repository.TicketsApiRepositoryImp
+import com.ucne.parcial2.data.repository.TicketApiRepositoryImp
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -22,7 +22,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule{
     @Binds
-    abstract  fun bindTicketsRepository(impl: TicketsApiRepositoryImp): TicketApiRepository
+    abstract  fun bindTicketsRepository(impl: TicketApiRepositoryImp): TicketApiRepository
 
 }
 

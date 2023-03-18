@@ -24,11 +24,21 @@ class TicketViewModel @Inject constructor(
 ) : ViewModel() {
 
     var asunto by mutableStateOf("")
+    var asuntoError by mutableStateOf("")
+
     var empresa by mutableStateOf("")
+    var empresaError by mutableStateOf("")
+
     var encargadoId by mutableStateOf("")
+    var encargadoError by mutableStateOf("")
+
     var especificaciones by mutableStateOf("")
+    var especificacionesError by mutableStateOf("")
+
     var estatus by mutableStateOf("")
+
     var fecha by mutableStateOf("")
+
     var orden by mutableStateOf("")
 
     var uiState = MutableStateFlow(TicketsUiState())
@@ -44,6 +54,23 @@ class TicketViewModel @Inject constructor(
         }
     }
 
+    fun onAsuntoChanged(asunto: String) {
+        this.asunto = asunto
+        HayErrores()
+    }
+    fun onEmpresaChanged(empresa: String) {
+        this.empresa = empresa
+        HayErrores()
+    }
+    fun onEspecificacionesChanged(especificaciones: String) {
+        this.especificaciones = especificaciones
+        HayErrores()
+    }
+    fun onEncargadoChanged(encargado: String) {
+        this.encargadoId = encargado
+        HayErrores()
+    }
+
     private suspend fun refrescarTicket() {
         ticketRepository.getList().collect { lista ->
             uiState.update {
@@ -53,6 +80,9 @@ class TicketViewModel @Inject constructor(
     }
 
     fun insertar() {
+
+        if (HayErrores())
+            return
 
         val ticket = TicketEntity(
             asunto = asunto,
@@ -69,8 +99,43 @@ class TicketViewModel @Inject constructor(
             Limpiar()
         }
     }
+    fun limpiar() {
+
+            Limpiar()
+        }
+
+    private fun HayErrores(): Boolean {
+        var hayError = false
+        asuntoError = ""
+        if (asunto.isBlank()) {
+            asuntoError = "  Debe indicar el asunto"
+            hayError = true
+        }
+
+        empresaError = ""
+        if (empresa.isBlank()) {
+            empresaError = "  Debe indicar la empresa"
+            hayError = true
+        }
+
+        especificacionesError = ""
+        if (especificaciones.isBlank()) {
+            especificacionesError = "  Debe indicar las especificaciones"
+            hayError = true
+        }
+
+        encargadoError = ""
+        if (encargadoId.isBlank()) {
+            encargadoError = "  Debe indicar el encargado"
+            hayError = true
+        }
+
+
+        return hayError
+    }
 
     private fun Limpiar() {
+
         asunto = ""
         empresa = ""
         encargadoId = ""
@@ -78,5 +143,6 @@ class TicketViewModel @Inject constructor(
         estatus = ""
         fecha = ""
         orden = ""
+
     }
 }

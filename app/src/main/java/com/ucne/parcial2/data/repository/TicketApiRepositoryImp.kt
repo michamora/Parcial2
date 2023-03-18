@@ -19,7 +19,7 @@ class TicketApiRepositoryImp @Inject constructor(
             emit(Resource.Loading()) //indicar que estamos cargando
 
             val ocupaciones =
-                ticketsApi.getTickets() //descarga las ocupaciones de internet, se supone quedemora algo
+                ticketsApi.getTickets() //descarga los tickets de internet, se supone que demora algo
 
             emit(Resource.Success(ocupaciones)) //indicar que se cargo correctamente y pasarle las monedas
         } catch (e: HttpException) {
