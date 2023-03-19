@@ -5,20 +5,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ucne.parcial2.data.local.entity.TicketEntity
 import com.ucne.parcial2.data.remote.dto.TicketDto
 import com.ucne.parcial2.data.repository.TicketApiRepositoryImp
-import com.ucne.parcial2.data.repository.TicketRepository
 import com.ucne.parcial2.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 data class TicketsListState(
     val isLoading: Boolean = false,

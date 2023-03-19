@@ -113,7 +113,7 @@ fun TicketRow(ticket: TicketDto, onTicketClick: (Int) -> Unit) {
 
                 )
                 Text(
-                    text = ticket.fecha.substring(0, 8),
+                    text = ticket.fecha.substring(0, 10),
                     style = MaterialTheme.typography.titleSmall,
                     color = Color(0xD0808080),
                     modifier = Modifier.weight(4f)

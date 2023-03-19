@@ -1,17 +1,14 @@
 package com.ucne.parcial2
 
-import android.media.Image
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.twotone.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -71,7 +68,6 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate(Screen.TicketsList.route)
                             }
                         }
-
 
                         composable(Screen.Acercade.route) {
                             AcercadeScreen(navController = navController)

@@ -4,15 +4,12 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-
-
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.twotone.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -23,21 +20,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ucne.parcial2.Screen
 import kotlinx.coroutines.launch
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun TicketsScreen(ticketId: Int, viewModel: TicketViewModel = hiltViewModel(), navController: NavController,
-                  onSaveClick: () -> Unit) {
+fun TicketsScreen(
+    ticketId: Int, viewModel: TicketViewModel = hiltViewModel(), navController: NavController,
+    onSaveClick: () -> Unit
+) {
     remember {
         viewModel.setTicket(ticketId)
         0
     }
-    TicketsBody(viewModel = viewModel, navController = navController){
+    TicketsBody(viewModel = viewModel, navController = navController) {
         onSaveClick()
     }
 }
@@ -64,7 +60,8 @@ private fun TicketsBody(
             imageVector = Icons.TwoTone.ArrowCircleLeft,
             contentDescription = null,
             tint = Color(0xCD8595FF),
-            modifier = Modifier.align(Alignment.Start)
+            modifier = Modifier
+                .align(Alignment.Start)
                 .size(50.dp, 50.dp)
                 .clickable {
                     scope.launch {
@@ -179,7 +176,7 @@ private fun TicketsBody(
             .padding(8.dp)
             .fillMaxWidth(),
             value = viewModel.fecha,
-            onValueChange = { viewModel.fecha},
+            onValueChange = { viewModel.fecha },
             enabled = false,
             leadingIcon = {
                 Icon(
@@ -216,7 +213,7 @@ private fun TicketsBody(
 
             label = { Text("Estatus") },
             trailingIcon = {
-                    Icon(imageVector = Icons.TwoTone.ArrowDropDown, contentDescription = "nothing")
+                Icon(imageVector = Icons.TwoTone.ArrowDropDown, contentDescription = "nothing")
             }
 
         )
@@ -256,7 +253,12 @@ private fun TicketsBody(
                 text = { Text("Clean") },
                 contentColor = Color(0xFFFFFFFF),
                 containerColor = Color(0xFF8595FF),
-                icon = { Icon(imageVector = Icons.TwoTone.CleaningServices, contentDescription = "Save") },
+                icon = {
+                    Icon(
+                        imageVector = Icons.TwoTone.CleaningServices,
+                        contentDescription = "Save"
+                    )
+                },
                 onClick = {
                     viewModel.limpiar()
                 }
@@ -271,29 +273,26 @@ private fun TicketsBody(
                 icon = { Icon(imageVector = Icons.TwoTone.Save, contentDescription = "Save") },
                 onClick = {
 
-                    if (viewModel.HayErrores())
-                        {
-                            viewModel.asuntoError = ""
-                            if (viewModel.asunto.isBlank()) {
-                                viewModel.asuntoError = "  Debe indicar el asunto"
-                            }
-
-                            viewModel.empresaError = ""
-                            if (viewModel.empresa.isBlank()) {
-                                viewModel.empresaError = "  Debe indicar la empresa"
-                            }
-
-                            viewModel.especificacionesError = ""
-                            if (viewModel.especificaciones.isBlank()) {
-                                viewModel.especificacionesError = "  Debe indicar las especificaciones"
-                            }
-
+                    if (viewModel.HayErrores()) {
+                        viewModel.asuntoError = ""
+                        if (viewModel.asunto.isBlank()) {
+                            viewModel.asuntoError = "  Debe indicar el asunto"
                         }
 
-                        else {
-                            viewModel.putTicket()
-                            onSaveClick()
+                        viewModel.empresaError = ""
+                        if (viewModel.empresa.isBlank()) {
+                            viewModel.empresaError = "  Debe indicar la empresa"
                         }
+
+                        viewModel.especificacionesError = ""
+                        if (viewModel.especificaciones.isBlank()) {
+                            viewModel.especificacionesError = "  Debe indicar las especificaciones"
+                        }
+
+                    } else {
+                        viewModel.putTicket()
+                        onSaveClick()
+                    }
 
                 }
             )
