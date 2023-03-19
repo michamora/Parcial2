@@ -10,22 +10,14 @@ import javax.inject.Inject
 
 class TicketRepository @Inject constructor
     (
-    private val ticketDao: TicketDao,
     private val ticketsApi: TicketsApi
 ) {
-    suspend fun insert(ticket: TicketEntity) {
+    suspend fun insert(ticket: TicketEntity){
 
-        ticketDao.insert(ticket) //insertar en la base de datos
-
-        //ticketsApi.postTickets(ticket.toTicketDto())
-
-        ticketsApi.putTickets(1, ticket.toTicketDto())
+        ticketsApi.postticket(ticket.toTicketDto())
     }
 
-    suspend fun delete(ticket: TicketEntity) = ticketDao.delete(ticket)
+    suspend fun putTicket(id: Int, ticketDto: TicketDto) = ticketsApi.putTicket(id, ticketDto)
 
-    suspend fun find(ticketId:Int) = ticketDao.find(ticketId)
-    suspend fun putTickets(id: Int, ticketDto: TicketDto) = ticketsApi.putTickets(id,ticketDto)
 
-    fun getList(): Flow<List<TicketEntity>> = ticketDao.getList()
 }

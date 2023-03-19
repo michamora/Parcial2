@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface TicketApiRepository
 {
     fun getTickets(): Flow<Resource<List<TicketDto>>>
-    suspend fun putTickets(id: Int, ticketDto: TicketDto)
-    suspend fun deleteTickets(id: Int)
+    suspend fun putTicket(id: Int, ticketsDto: TicketDto)
+    fun getTicketbyId(id: Int): Flow<Resource<TicketDto>>
+    suspend fun deleteTicket(id: Int)
 }

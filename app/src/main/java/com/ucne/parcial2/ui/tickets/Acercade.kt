@@ -1,31 +1,23 @@
 package com.ucne.parcial2.ui.tickets
 
-import android.app.DatePickerDialog
 import android.os.Build
-import android.widget.DatePicker
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Save
-import androidx.compose.material.icons.twotone.ArrowCircleLeft
-import androidx.compose.material.icons.twotone.PendingActions
-import androidx.compose.material.icons.twotone.PostAdd
-import androidx.compose.material.icons.twotone.Save
+import androidx.compose.material.icons.twotone.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ucne.parcial2.Screen
+
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -41,6 +33,7 @@ fun AcercadeScreen(viewModel: TicketViewModel = hiltViewModel(), navController: 
         Icon(
             imageVector = Icons.TwoTone.ArrowCircleLeft,
             contentDescription = null,
+            tint = Color(0xCD8595FF),
             modifier = Modifier.align(Alignment.Start)
                 .size(50.dp, 50.dp)
                 .clickable {
@@ -57,7 +50,7 @@ fun AcercadeScreen(viewModel: TicketViewModel = hiltViewModel(), navController: 
             Icon(
                 modifier = Modifier.size(40.dp, 40.dp).weight(1f),
                 imageVector = Icons.TwoTone.ArrowCircleLeft,
-
+                tint = Color(0xCD8595FF),
                 contentDescription = null,
 
                 )
@@ -68,21 +61,63 @@ fun AcercadeScreen(viewModel: TicketViewModel = hiltViewModel(), navController: 
             )
 
         }
+        Spacer(modifier = Modifier.padding(14.dp))
+        Text(
+            text = "Estatus:", fontSize = 20.sp,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
 
         Row(modifier = Modifier
             .fillMaxWidth()
             .wrapContentSize(Alignment.TopEnd)
         ) {
-            Spacer(modifier = Modifier.padding(40.dp))
+            Spacer(modifier = Modifier.padding(34.dp))
             Icon(
                 modifier = Modifier.size(40.dp, 40.dp).weight(1f),
-                imageVector = Icons.TwoTone.PostAdd,
-
+                imageVector = Icons.TwoTone.PendingActions,
+                tint = Color(0xFFF3E66A),
                 contentDescription = null,
 
                 )
             Text(
-                text = ": Icono para registrar nuevo ticket.", fontSize = 12.sp,
+                text = ": En espera.", fontSize = 12.sp,
+                modifier = Modifier.weight(7f),
+                color = Color(0xFFD1808C)
+            )
+        }
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentSize(Alignment.TopEnd)
+        ) {
+            Spacer(modifier = Modifier.padding(34.dp))
+            Icon(
+                modifier = Modifier.size(40.dp, 40.dp).weight(1f),
+                imageVector = Icons.TwoTone.Star,
+                tint = Color(0xFF699AFC),
+                contentDescription = null,
+
+                )
+            Text(
+                text = ": Solicitado.", fontSize = 12.sp,
+                modifier = Modifier.weight(7f),
+                color = Color(0xFFD1808C)
+            )
+        }
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentSize(Alignment.TopEnd)
+        ) {
+
+            Spacer(modifier = Modifier.padding(34.dp))
+            Icon(
+                modifier = Modifier.size(40.dp, 40.dp).weight(1f),
+                imageVector = Icons.TwoTone.AssignmentTurnedIn,
+                tint =  Color(0xFF85F171),
+                contentDescription = null,
+
+                )
+            Text(
+                text = ": Finalizado.", fontSize = 12.sp,
                 modifier = Modifier.weight(7f),
                 color = Color(0xFFD1808C)
             )
@@ -92,7 +127,7 @@ fun AcercadeScreen(viewModel: TicketViewModel = hiltViewModel(), navController: 
 
         Spacer(modifier = Modifier.padding(20.dp))
         Text(
-            text = " Segundo parcial programacion aplicada 2, Registro de Tickets con Api.", fontSize = 12.sp,
+            text = " Segundo parcial programacion aplicada 2, Modificar Tickets con Api.", fontSize = 12.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)
 
         )

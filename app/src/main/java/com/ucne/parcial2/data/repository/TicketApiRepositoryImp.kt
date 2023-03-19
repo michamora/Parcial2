@@ -14,26 +14,38 @@ class TicketApiRepositoryImp @Inject constructor(
     private val ticketsApi: TicketsApi
 ): TicketApiRepository {
 
-    override fun getTickets(): Flow<Resource<List<TicketDto>>> = flow {
+    override fun getTickets():Flow<Resource<List<TicketDto>>> = flow {
         try {
-            emit(Resource.Loading()) //indicar que estamos cargando
+            emit(Resource.Loading())
 
-            val ocupaciones =
-                ticketsApi.getTickets() //descarga los tickets de internet, se supone que demora algo
+            val tickets = ticketsApi.getTickets()
 
-            emit(Resource.Success(ocupaciones)) //indicar que se cargo correctamente y pasarle las monedas
+            emit (Resource.Success(tickets))
         } catch (e: HttpException) {
-            //error general HTTP
+
             emit(Resource.Error(e.message ?: "Error HTTP GENERAL"))
         } catch (e: IOException) {
-            //debe verificar tu conexion a internet
-            emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
+            emit(Resource.Error(e.message ?: "Verificar tu conexion a internet"))
+        }
+    }
+    override suspend fun putTicket(id: Int, ticketsDto: TicketDto){
+        ticketsApi.putTicket(id,ticketsDto)
+    }
+    override  fun getTicketbyId(id: Int) :Flow<Resource<TicketDto>> = flow {
+        try {
+            emit(Resource.Loading())
+
+            val tickets = ticketsApi.getTicketsbyId(id)
+
+            emit (Resource.Success(tickets))
+        } catch (e: HttpException) {
+
+            emit(Resource.Error(e.message ?: "Error HTTP GENERAL"))
+        } catch (e: IOException) {
+            emit(Resource.Error(e.message ?: "Verificar tu conexion a internet"))
         }
     }
 
-    override suspend fun putTickets(id: Int, ticketDto: TicketDto) {
-        ticketsApi.putTickets(id, ticketDto)
-    }
 
-    override suspend fun deleteTickets(id: Int) = ticketsApi.deleteTickets(id)
+    override suspend fun deleteTicket(id: Int) = ticketsApi.deleteTicket(id)
 }

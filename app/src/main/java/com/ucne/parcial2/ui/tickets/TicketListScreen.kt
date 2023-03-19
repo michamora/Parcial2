@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.twotone.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -21,24 +19,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.ucne.parcial2.Screen
 import com.ucne.parcial2.data.remote.dto.TicketDto
-import com.ucne.parcial2.ui.theme.Parcial2Theme
-import com.ucne.parcial2.ui.theme.Purple40
-
-
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TicktetListScreen(onNewTicket: () -> Unit, viewModel: TicketApiViewModel = hiltViewModel(), navController: NavController) {
+fun TicketListScreen(
+    navController: NavController,
+    viewModel: TicketViewModel = hiltViewModel(),
+    onTicketClick: (Int) -> Unit
+) {
     val scope = rememberCoroutineScope()
     Column(Modifier.fillMaxSize()) {
         Spacer(Modifier.height(10.dp))
         Icon(
             imageVector = Icons.TwoTone.ArrowCircleLeft,
             contentDescription = null,
+            tint = Color(0xCD8595FF),
             modifier = Modifier
                 .align(Alignment.Start)
                 .size(50.dp, 50.dp)
@@ -48,18 +46,6 @@ fun TicktetListScreen(onNewTicket: () -> Unit, viewModel: TicketApiViewModel = h
                     }
                 }
         )
-            Icon(
-                imageVector = Icons.TwoTone.PostAdd,
-                contentDescription = null,
-                modifier = Modifier
-                    .wrapContentSize(Alignment.TopStart)
-                    .size(50.dp, 50.dp)
-                    .clickable {
-                        scope.launch {
-                            navController.navigate(Screen.Tickets.route)
-                        }
-                    }
-            )
         Spacer(modifier = Modifier.padding(2.dp))
         Text(
             text = "Lista de Tickets", fontSize = 27.sp,
@@ -72,26 +58,32 @@ fun TicktetListScreen(onNewTicket: () -> Unit, viewModel: TicketApiViewModel = h
             Box(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding()
             ) {
-                TicketListBody(uiState.tickets)
+                TicketListBody(uiState.tickets){
+                    onTicketClick(it)
+                }
             }
         }
     }
 
 
 @Composable
-fun TicketListBody(ticketList: List<TicketDto>) {
+fun TicketListBody(ticketList: List<TicketDto>, onTicketClick: (Int) -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
         LazyColumn {
             items(ticketList) {ticket ->
                 TicketRow(ticket)
+                {
+                    onTicketClick(it)
+                }
             }
         }
     }
 }
 
 @Composable
-fun TicketRow(ticket: TicketDto) {
+fun TicketRow(ticket: TicketDto, onTicketClick: (Int) -> Unit) {
     Spacer(modifier = Modifier.padding(10.dp))
 
     Column(
@@ -99,58 +91,80 @@ fun TicketRow(ticket: TicketDto) {
             .fillMaxWidth()
             .padding(8.dp)
     ) {
-
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentSize(Alignment.TopEnd)
-        ){
-            Text(
-                text = ticket.empresa,
-                style = MaterialTheme.typography.titleLarge,
-                color = Color(0xFF000000),
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .weight(7f)
-
-
-            )
-            Text(
-                text = ticket.fecha.format("dd/mm/yyyy"),
-                style = MaterialTheme.typography.titleSmall,
-                color = Color(0xD0808080),
-                modifier = Modifier.weight(4f)
-
-            )
-        }
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentSize(Alignment.TopStart)
+                .clickable(onClick = { onTicketClick(ticket.ticketId) })
         ) {
-            Text(
-                text = ticket.asunto,
-                style = MaterialTheme.typography.titleSmall,
-                color = Color(0xC3303030),
-                modifier = Modifier.weight(8f)
-            )
 
-            Icon(
-                modifier = Modifier.size(40.dp, 40.dp).weight(1f),
-                imageVector = Icons.TwoTone.PendingActions,
-
-                contentDescription = null,
-
-            )
-            Text(
-                text = ticket.estatus,
-                style = MaterialTheme.typography.titleSmall,
-                color = Color(0xFFF7C05E),
-                modifier = Modifier.weight(4f)
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentSize(Alignment.TopEnd)
+            ) {
+                Text(
+                    text = ticket.empresa,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color(0xFF000000),
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .weight(7f)
 
 
+                )
+                Text(
+                    text = ticket.fecha.substring(0, 8),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = Color(0xD0808080),
+                    modifier = Modifier.weight(4f)
 
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentSize(Alignment.TopStart)
+            ) {
+                Text(
+                    text = ticket.asunto,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = Color(0xC3303030),
+                    modifier = Modifier.weight(8f)
+                )
+
+                Icon(
+                    imageVector = when (ticket.estatus) {
+                        "Solicitado" -> {
+                            Icons.TwoTone.Star
+
+
+                        }
+                        "En espera" -> {
+                            Icons.TwoTone.PendingActions
+
+                        }
+                        else -> {
+                            Icons.TwoTone.AssignmentTurnedIn
+                        }
+                    },
+                    contentDescription = ticket.estatus,
+                    modifier = Modifier.size(40.dp, 40.dp),
+
+                    tint = when (ticket.estatus) {
+                        "Solicitado" -> {
+                            Color(0xFF699AFC)
+                        }
+                        "En espera" -> {
+                            Color(0xFFF3E66A)
+                        }
+                        else -> {
+                            Color(0xFF85F171)
+                        }
+                    }
+                )
+
+             }
+            }
+            Divider(Modifier.fillMaxWidth())
         }
-        Divider(Modifier.fillMaxWidth())
     }
-}
