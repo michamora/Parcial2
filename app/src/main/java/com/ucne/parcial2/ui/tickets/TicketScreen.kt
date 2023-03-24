@@ -192,14 +192,15 @@ private fun TicketsBody(
             },
             label = { Text(text = "Fecha") }
         )
-        OutlinedTextField(
+
+        OutlinedTextField(   //Estatus
             modifier = Modifier
                 .padding(8.dp)
                 .fillMaxWidth()
                 .clickable { expanded = true },
             value = viewModel.estatus,
             enabled = false, readOnly = true,
-            onValueChange = { viewModel.estatus = it },
+            onValueChange = viewModel::onEstatusChanged,
             leadingIcon = {
                 Icon(
                     imageVector = Icons.TwoTone.ContentPasteGo,
@@ -210,13 +211,34 @@ private fun TicketsBody(
                         .padding(4.dp)
                 )
             },
-
+            isError = viewModel.tipoEstatusError.isNotBlank(),
             label = { Text("Estatus") },
             trailingIcon = {
-                Icon(imageVector = Icons.TwoTone.ArrowDropDown, contentDescription = "nothing")
-            }
+                if (viewModel.tipoEstatusError.isNotBlank()) {
+                    Icon(
+                        imageVector = Icons.TwoTone.ArrowDropDown, contentDescription = "error",
+                        tint = MaterialTheme.colorScheme.error
+                    )
+                }
+                if (viewModel.tipoEstatusError.isBlank()) {
+                    Icon(
+                        imageVector = Icons.TwoTone.ArrowDropDown, contentDescription = "error",
+                        tint = Color(0xFF8A8A8A)
+                    )
+                }
 
+            }
         )
+
+        if (viewModel.tipoEstatusError.isNotBlank()) {
+            Text(
+                text = viewModel.tipoEstatusError,
+                color = MaterialTheme.colorScheme.error,
+
+            )
+        }
+
+
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
@@ -242,7 +264,7 @@ private fun TicketsBody(
         }
 
         Row(
-            modifier = Modifier
+            modifier = Modifier      //Boton Clean
                 .fillMaxWidth()
                 .wrapContentSize(Alignment.BottomCenter)
         ) {
@@ -261,6 +283,7 @@ private fun TicketsBody(
                 },
                 onClick = {
                     viewModel.limpiar()
+
                 }
             )
             ExtendedFloatingActionButton(
@@ -288,6 +311,13 @@ private fun TicketsBody(
                         if (viewModel.especificaciones.isBlank()) {
                             viewModel.especificacionesError = "  Debe indicar las especificaciones"
                         }
+
+                        viewModel.tipoEstatusError = ""
+                        if (viewModel.estatus.isBlank()) {
+                            viewModel.tipoEstatusError = "  Debe seleccionar un estatus"
+
+                        }
+
 
                     } else {
                         viewModel.putTicket()

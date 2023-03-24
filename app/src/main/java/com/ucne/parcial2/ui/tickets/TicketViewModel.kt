@@ -44,12 +44,13 @@ class TicketViewModel @Inject constructor(
     var especificacionesError by mutableStateOf("")
 
     var estatus by mutableStateOf("")
+    var tipoEstatusError by mutableStateOf("")
 
     var fecha by mutableStateOf("")
 
     var orden by mutableStateOf("")
 
-    val tipoEstatus = listOf("Solicitado", "En espera", "Finalizado")
+    val tipoEstatus = listOf("Solicitado", "En espera", "Finalizado", "")
     var uiState = MutableStateFlow(TicketsListState())
         private set
     var uiStateTicket = MutableStateFlow(TicketsState())
@@ -68,25 +69,34 @@ class TicketViewModel @Inject constructor(
         HayErrores()
     }
 
+    fun onEstatusChanged(estatus: String) {
+        this.estatus = estatus
+        HayErrores()
+    }
+
      fun HayErrores(): Boolean {
+
         var hayError = false
+
         asuntoError = ""
         if (asunto.isBlank()) {
-            asuntoError = "  Debe indicar el asunto"
             hayError = true
         }
 
         empresaError = ""
         if (empresa.isBlank()) {
-            empresaError = "  Debe indicar la empresa"
             hayError = true
         }
 
         especificacionesError = ""
         if (especificaciones.isBlank()) {
-            especificacionesError = "  Debe indicar las especificaciones"
             hayError = true
         }
+
+         tipoEstatusError = ""
+         if(estatus.isBlank()){
+             hayError = true
+         }
 
 
         return hayError
@@ -95,7 +105,23 @@ class TicketViewModel @Inject constructor(
     fun limpiar() {
 
         Limpiar()
+        limpiarErrores()
     }
+
+    fun limpiarErrores() {
+
+        asuntoError = ""
+
+
+        empresaError = ""
+
+
+        especificacionesError = ""
+
+
+        tipoEstatusError = ""
+
+        }
 
     private fun Limpiar() {
 
@@ -106,6 +132,7 @@ class TicketViewModel @Inject constructor(
         estatus = ""
         fecha = ""
         orden = ""
+        estatus = ""
 
     }
 
