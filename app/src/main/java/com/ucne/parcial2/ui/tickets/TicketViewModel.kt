@@ -150,6 +150,7 @@ class TicketViewModel @Inject constructor(
                     }
                     empresa = uiStateTicket.value.ticket!!.empresa
                     asunto = uiStateTicket.value.ticket!!.asunto
+                    fecha = uiStateTicket.value.ticket!!.fecha
                     estatus = uiStateTicket.value.ticket!!.estatus
                     especificaciones = uiStateTicket.value.ticket!!.especificaciones
                 }
