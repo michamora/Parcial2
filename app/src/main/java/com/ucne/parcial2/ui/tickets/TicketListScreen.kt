@@ -1,9 +1,11 @@
 package com.ucne.parcial2.ui.tickets
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.*
 import androidx.compose.material3.*
@@ -113,10 +115,10 @@ fun TicketRow(ticket: TicketDto, onTicketClick: (Int) -> Unit) {
 
                 )
                 Text(
-                    text = ticket.fecha.substring(0, 10),
+                    text = "  "+ ticket.fecha.substring(0, 10),
                     style = MaterialTheme.typography.titleSmall,
                     color = Color(0xD0808080),
-                    modifier = Modifier.weight(4f)
+                    modifier = Modifier.weight(2f).border(0.5.dp, Color(0x56808080), shape = RoundedCornerShape(14.dp)),
 
                 )
             }
