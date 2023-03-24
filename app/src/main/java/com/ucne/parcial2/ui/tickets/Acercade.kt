@@ -42,11 +42,13 @@ fun AcercadeScreen(viewModel: TicketViewModel = hiltViewModel(), navController: 
                     }
                 }
         )
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentSize(Alignment.TopEnd)
+        Spacer(modifier = Modifier.padding(20.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.TopEnd)
         ) {
-            Spacer(modifier = Modifier.padding(40.dp))
+            Spacer(modifier = Modifier.padding(34.dp))
             Icon(
                 modifier = Modifier.size(40.dp, 40.dp).weight(1f),
                 imageVector = Icons.TwoTone.ArrowCircleLeft,
@@ -59,17 +61,21 @@ fun AcercadeScreen(viewModel: TicketViewModel = hiltViewModel(), navController: 
                 modifier = Modifier.weight(7f),
                 color = Color(0xFFD1808C)
             )
-
         }
+
         Spacer(modifier = Modifier.padding(14.dp))
         Text(
             text = "Estatus:", fontSize = 20.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
+        Text(
+            text = ""
+        )
 
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentSize(Alignment.TopEnd)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.TopEnd)
         ) {
             Spacer(modifier = Modifier.padding(34.dp))
             Icon(
@@ -85,9 +91,10 @@ fun AcercadeScreen(viewModel: TicketViewModel = hiltViewModel(), navController: 
                 color = Color(0xFFD1808C)
             )
         }
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentSize(Alignment.TopEnd)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.TopEnd)
         ) {
             Spacer(modifier = Modifier.padding(34.dp))
             Icon(
@@ -103,16 +110,17 @@ fun AcercadeScreen(viewModel: TicketViewModel = hiltViewModel(), navController: 
                 color = Color(0xFFD1808C)
             )
         }
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentSize(Alignment.TopEnd)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.TopEnd)
         ) {
 
             Spacer(modifier = Modifier.padding(34.dp))
             Icon(
                 modifier = Modifier.size(40.dp, 40.dp).weight(1f),
                 imageVector = Icons.TwoTone.AssignmentTurnedIn,
-                tint =  Color(0xFF85F171),
+                tint = Color(0xFF85F171),
                 contentDescription = null,
 
                 )
@@ -122,6 +130,13 @@ fun AcercadeScreen(viewModel: TicketViewModel = hiltViewModel(), navController: 
                 color = Color(0xFFD1808C)
             )
         }
+
+        Spacer(modifier = Modifier.padding(20.dp))
+        Text(
+            text = " Nota: Necesitas conección a internet para el funcionamiento de la aplicacion.", fontSize = 10.sp,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+
+        )
         Spacer(modifier = Modifier.padding(8.dp))
         Divider(Modifier.fillMaxWidth())
 
