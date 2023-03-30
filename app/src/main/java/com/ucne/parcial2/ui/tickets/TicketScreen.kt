@@ -1,6 +1,8 @@
 package com.ucne.parcial2.ui.tickets
 
+import android.app.DatePickerDialog
 import android.os.Build
+import android.widget.DatePicker
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -50,7 +53,24 @@ private fun TicketsBody(
     val scope = rememberCoroutineScope()
     var expanded by remember {
         mutableStateOf(false)
+
+
     }
+
+    val anio: Int
+    val mes: Int
+    val dia: Int
+
+    val mCalendar = Calendar.getInstance()
+    anio = mCalendar.get(Calendar.YEAR)
+    mes = mCalendar.get(Calendar.MONTH)
+    dia = mCalendar.get(Calendar.DAY_OF_MONTH)
+
+    val myFecha = DatePickerDialog(
+        LocalContext.current, { _: DatePicker, anio: Int, mes: Int, dia: Int ->
+            viewModel.fecha = "$dia/${mes + 1}/$anio"
+        }, anio, mes, dia
+    )
 
 
     Column(modifier = Modifier.fillMaxWidth())
@@ -80,36 +100,6 @@ private fun TicketsBody(
         )
 
         Spacer(modifier = Modifier.padding(10.dp))
-        OutlinedTextField(modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth(),
-            value = viewModel.asunto,
-            onValueChange = viewModel::onAsuntoChanged,
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.TwoTone.ReceiptLong,
-                    contentDescription = null,
-                    tint = Color(0xFFF56379),
-                    modifier = Modifier
-                        .size(33.dp)
-                        .padding(4.dp)
-                )
-            },
-            label = { Text("Asunto") },
-            isError = viewModel.asuntoError.isNotBlank(),
-            trailingIcon = {
-                if (viewModel.asuntoError.isNotBlank()) {
-                    Icon(imageVector = Icons.TwoTone.Error, contentDescription = "error")
-                }
-            }
-        )
-        if (viewModel.asuntoError.isNotBlank()) {
-            Text(
-                text = viewModel.asuntoError,
-                color = MaterialTheme.colorScheme.error
-            )
-        }
-
         OutlinedTextField(
             modifier = Modifier
                 .padding(8.dp)
@@ -144,6 +134,38 @@ private fun TicketsBody(
         OutlinedTextField(modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth(),
+            value = viewModel.asunto,
+            onValueChange = viewModel::onAsuntoChanged,
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.TwoTone.ReceiptLong,
+                    contentDescription = null,
+                    tint = Color(0xFFF56379),
+                    modifier = Modifier
+                        .size(33.dp)
+                        .padding(4.dp)
+                )
+            },
+            label = { Text("Asunto") },
+            isError = viewModel.asuntoError.isNotBlank(),
+            trailingIcon = {
+                if (viewModel.asuntoError.isNotBlank()) {
+                    Icon(imageVector = Icons.TwoTone.Error, contentDescription = "error")
+                }
+            }
+        )
+        if (viewModel.asuntoError.isNotBlank()) {
+            Text(
+                text = viewModel.asuntoError,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
+
+
+        OutlinedTextField(modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
             value = viewModel.especificaciones,
             onValueChange = viewModel::onEspecificacionesChanged,
             leadingIcon = {
@@ -172,11 +194,11 @@ private fun TicketsBody(
         }
 
 
-        OutlinedTextField(modifier = Modifier
+        OutlinedTextField(modifier = Modifier // Fecha
             .padding(8.dp)
             .fillMaxWidth(),
             value = viewModel.fecha,
-            onValueChange = { viewModel.fecha },
+            onValueChange = { viewModel.fecha},
             enabled = false,
             leadingIcon = {
                 Icon(
@@ -187,7 +209,7 @@ private fun TicketsBody(
                         .size(33.dp)
                         .padding(4.dp)
                         .clickable {
-
+                            myFecha.show()
                         })
             },
             label = { Text(text = "Fecha") }
