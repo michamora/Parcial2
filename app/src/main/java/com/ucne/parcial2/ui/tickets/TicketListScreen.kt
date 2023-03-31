@@ -56,17 +56,33 @@ fun TicketListScreen(
         )
 
 
-            val uiState by viewModel.uiState.collectAsState()
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding()
-            ) {
-                TicketListBody(uiState.tickets){
-                    onTicketClick(it)
-                }
+        val uiState by viewModel.uiState.collectAsState()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding()
+        ) {
+            TicketListBody(uiState.tickets) {
+                onTicketClick(it)
             }
         }
+    }
+    Column(Modifier.fillMaxSize()) {
+    Icon(
+        imageVector = Icons.TwoTone.AddBox,
+        contentDescription = null,
+        tint = Color(0xCDFC7130),
+        modifier = Modifier
+            .align(Alignment.End)
+            .size(50.dp, 50.dp)
+            .clickable {
+                scope.launch {
+                    navController.navigate(Screen.NuevoTickets.route)
+                }
+            }
+    )
+}
+
     }
 
 
@@ -169,4 +185,5 @@ fun TicketRow(ticket: TicketDto, onTicketClick: (Int) -> Unit) {
             }
             Divider(Modifier.fillMaxWidth())
         }
+
     }

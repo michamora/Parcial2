@@ -22,6 +22,9 @@ interface TicketDao {
     )
     suspend fun find(ticketId: Int): TicketEntity?
 
+    @Update
+    suspend fun update(ticketEntity: TicketEntity)
+
     @Query(
         """SELECT * 
         FROM Tickets

@@ -8,6 +8,9 @@ interface TicketApiRepository
 {
     fun getTickets(): Flow<Resource<List<TicketDto>>>
     suspend fun putTicket(id: Int, ticketsDto: TicketDto)
+    suspend fun postTickets(ticketDto: TicketDto)
     fun getTicketbyId(id: Int): Flow<Resource<TicketDto>>
     suspend fun deleteTicket(id: Int)
+
+
 }

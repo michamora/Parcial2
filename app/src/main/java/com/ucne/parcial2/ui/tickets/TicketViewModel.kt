@@ -60,10 +60,12 @@ class TicketViewModel @Inject constructor(
         this.asunto = asunto
         HayErrores()
     }
+
     fun onEmpresaChanged(empresa: String) {
         this.empresa = empresa
         HayErrores()
     }
+
     fun onEspecificacionesChanged(especificaciones: String) {
         this.especificaciones = especificaciones
         HayErrores()
@@ -74,7 +76,7 @@ class TicketViewModel @Inject constructor(
         HayErrores()
     }
 
-     fun HayErrores(): Boolean {
+    fun HayErrores(): Boolean {
 
         var hayError = false
 
@@ -93,10 +95,10 @@ class TicketViewModel @Inject constructor(
             hayError = true
         }
 
-         tipoEstatusError = ""
-         if(estatus.isBlank()){
-             hayError = true
-         }
+        tipoEstatusError = ""
+        if (estatus.isBlank()) {
+            hayError = true
+        }
 
 
         return hayError
@@ -121,7 +123,7 @@ class TicketViewModel @Inject constructor(
 
         tipoEstatusError = ""
 
-        }
+    }
 
     private fun Limpiar() {
 
@@ -136,7 +138,7 @@ class TicketViewModel @Inject constructor(
 
     }
 
-    fun setTicket(id:Int){
+    fun setTicket(id: Int) {
         ticketId = id
         Limpiar()
         ticketRepository.getTicketbyId(ticketId).onEach { result ->
@@ -146,7 +148,7 @@ class TicketViewModel @Inject constructor(
                 }
                 is Resource.Success -> {
                     uiStateTicket.update {
-                        it.copy(ticket = result.data )
+                        it.copy(ticket = result.data)
                     }
                     empresa = uiStateTicket.value.ticket!!.empresa
                     asunto = uiStateTicket.value.ticket!!.asunto
@@ -160,18 +162,33 @@ class TicketViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
     }
-    fun putTicket(){
-        viewModelScope.launch {
-            ticketRepository.putTicket(ticketId, TicketDto(asunto,
-                empresa,
-                uiStateTicket.value.ticket!!.encargadoId,
-                especificaciones,
-                estatus,uiStateTicket.value.ticket!!.fecha,
-                uiStateTicket.value.ticket!!.orden,
-                ticketId = ticketId ))
-        }
 
+    fun putTicket(id: Int) {
+        viewModelScope.launch {
+            ticketId = id
+            try {
+                if (ticketId != null) {
+                    ticketRepository.putTicket(
+                        ticketId, TicketDto(
+                            asunto,
+                            empresa,
+                            uiStateTicket.value.ticket!!.encargadoId,
+                            especificaciones,
+                            estatus, uiStateTicket.value.ticket!!.fecha,
+                            uiStateTicket.value.ticket!!.orden,
+                            ticketId = ticketId
+                        )
+                    )
+                } else {
+                    throw NullPointerException("Value is null")
+                }
+            } catch (e: NullPointerException) {
+                e.printStackTrace()
+            }
+        }
     }
+
+
     init {
         ticketRepository.getTickets().onEach { result ->
             when (result) {
@@ -190,4 +207,61 @@ class TicketViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-}
+    fun deleteTicket(id: Int) {
+        viewModelScope.launch {
+            ticketId = id!!
+            try {
+                if (ticketId != null) {
+                    ticketRepository.deleteTicket(ticketId)
+                } else {
+                    throw NullPointerException("Value is null")
+                }
+            } catch (e: NullPointerException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun postTickets(id: Int) {
+        viewModelScope.launch {
+            ticketId = id!!
+            try {
+                if (ticketId != null) {
+                    ticketRepository.postTickets(
+                        TicketDto(
+                            asunto,
+                            empresa,
+                            uiStateTicket.value.ticket!!.encargadoId,
+                            especificaciones,
+                            estatus, fecha = uiStateTicket.value.ticket!!.fecha,
+                            uiStateTicket.value.ticket!!.orden,
+                            ticketId = ticketId
+                        )
+                    )
+                } else {
+                    throw NullPointerException("Value is null")
+                }
+            } catch (e: NullPointerException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun postTicketsNuevo() {
+        viewModelScope.launch {
+                    ticketRepository.postTickets(
+                        TicketDto(
+                            asunto,
+                            empresa,
+                            uiStateTicket.value.ticket!!.encargadoId,
+                            especificaciones,
+                            estatus, fecha = uiStateTicket.value.ticket!!.fecha,
+                            uiStateTicket.value.ticket!!.orden,
+                            ticketId = ticketId
+                        )
+                    )
+                }
+        }
+    }
+
+

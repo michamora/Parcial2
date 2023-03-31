@@ -28,6 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ucne.parcial2.ui.theme.Parcial2Theme
 import com.ucne.parcial2.ui.tickets.AcercadeScreen
+import com.ucne.parcial2.ui.tickets.NuevoTicketsScreen
 import com.ucne.parcial2.ui.tickets.TicketsScreen
 import com.ucne.parcial2.ui.tickets.TicketListScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,6 +72,9 @@ class MainActivity : ComponentActivity() {
 
                         composable(Screen.Acercade.route) {
                             AcercadeScreen(navController = navController)
+                        }
+                        composable(Screen.NuevoTickets.route) {
+                            NuevoTicketsScreen(navController = navController)
                         }
                     }
                 }
@@ -146,5 +150,7 @@ class MainActivity : ComponentActivity() {
         object Tickets : Screen("tickets", "Registro de Tickets", Icons.TwoTone.Receipt)
         object TicketsList : Screen("tickets_list", "Lista de Tickets", Icons.TwoTone.ReceiptLong)
         object Acercade : Screen("acercade", "Acerca de", Icons.TwoTone.Info)
+
+        object NuevoTickets : Screen("nuevo_tickets", "Registro de Tickets", Icons.TwoTone.Receipt)
     }
 

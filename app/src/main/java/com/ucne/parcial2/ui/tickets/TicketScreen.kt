@@ -27,35 +27,25 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TicketsScreen(
-    ticketId: Int, viewModel: TicketViewModel = hiltViewModel(), navController: NavController,
+    ticketId: Int,
+    navController: NavController,
+    viewModel: TicketViewModel = hiltViewModel(),
     onSaveClick: () -> Unit
 ) {
     remember {
         viewModel.setTicket(ticketId)
         0
     }
-    TicketsBody(viewModel = viewModel, navController = navController) {
-        onSaveClick()
-    }
-}
 
-
-@RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TicketsBody(
-    navController: NavController,
-    viewModel: TicketViewModel,
-    onSaveClick: () -> Unit
-) {
     val scope = rememberCoroutineScope()
     var expanded by remember {
         mutableStateOf(false)
-
-
     }
+
+
 
     val anio: Int
     val mes: Int
@@ -342,12 +332,34 @@ private fun TicketsBody(
 
 
                     } else {
-                        viewModel.putTicket()
-                        onSaveClick()
+                        if (ticketId == 0) {
+                            viewModel.postTickets(ticketId)
+                            onSaveClick()
+                        } else {
+                            viewModel.putTicket(ticketId)
+                            onSaveClick()
+                        }
+
                     }
 
                 }
             )
+
+
+            Column(Modifier.fillMaxSize()) {
+                Icon(
+                    imageVector = Icons.TwoTone.Delete,
+                    contentDescription = null,
+                    tint = Color(0xCDFF1F1F),
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .size(50.dp, 50.dp)
+                        .clickable {
+                            viewModel.deleteTicket(ticketId)
+                            onSaveClick()
+                        }
+                )
+            }
 
         }
     }
