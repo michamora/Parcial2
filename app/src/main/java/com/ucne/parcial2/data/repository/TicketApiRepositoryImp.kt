@@ -28,8 +28,9 @@ class TicketApiRepositoryImp @Inject constructor(
             emit(Resource.Error(e.message ?: "Verificar tu conexion a internet"))
         }
     }
-    override suspend fun putTicket(id: Int, ticketsDto: TicketDto){
-        ticketsApi.putTicket(id,ticketsDto)
+
+    override suspend fun putTicket(id: Int, ticketDto: TicketDto){
+        ticketsApi.putTicket(id, ticketDto)
     }
     override  fun getTicketbyId(id: Int) :Flow<Resource<TicketDto>> = flow {
         try {
@@ -42,14 +43,14 @@ class TicketApiRepositoryImp @Inject constructor(
 
             emit(Resource.Error(e.message ?: "Error HTTP GENERAL"))
         } catch (e: IOException) {
-            emit(Resource.Error(e.message ?: "Verificar tu conexion a internet"))
+            emit(Resource.Error(e.message ?: "Verifica tu conexion a internet"))
         }
     }
 
-
-    override suspend fun deleteTicket(id: Int) = ticketsApi.deleteTicket(id)
-
-     suspend fun putTickets(id: Int, ticketDto: TicketDto) = ticketsApi.putTicket(id, ticketDto)
-
-    override suspend fun postTickets(ticketDto: TicketDto) = ticketsApi.postTicket(ticketDto)
+    override suspend fun deleteTicket(id: Int){
+        ticketsApi.deleteTicket(id)
+    }
+    override suspend fun postTicket(ticketDto: TicketDto) {
+        ticketsApi.postTicket(ticketDto)
+    }
 }

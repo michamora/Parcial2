@@ -54,11 +54,10 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.Start.route) {
                             DrawerMenu(navController = navController)
                         }
-                        composable(route = Screen.TicketsList.route) {
-                            TicketListScreen(navController = navController) { id ->
-                                navController.navigate(Screen.Tickets.route + "/${id}")
+                        composable(Screen.TicketsList.route) {
+                            TicketListScreen(navController = navController)
                             }
-                        }
+
                         composable(
                             route = Screen.Tickets.route + "/{id}",
                             arguments = listOf(navArgument("id") { type = NavType.IntType })

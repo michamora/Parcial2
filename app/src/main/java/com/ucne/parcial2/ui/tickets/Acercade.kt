@@ -62,8 +62,68 @@ fun AcercadeScreen(viewModel: TicketViewModel = hiltViewModel(), navController: 
                 color = Color(0xFFD1808C)
             )
         }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.TopEnd)
+        ) {
+            Spacer(modifier = Modifier.padding(34.dp))
+            Icon(
+                modifier = Modifier.size(40.dp, 40.dp).weight(1f),
+                imageVector = Icons.TwoTone.AddCircle,
+                tint = Color(0xFFFA7146),
+                contentDescription = null,
 
-        Spacer(modifier = Modifier.padding(14.dp))
+                )
+            Text(
+                text = ": Icono para registrar nuevo ticket.", fontSize = 12.sp,
+                modifier = Modifier.weight(7f),
+                color = Color(0xFFD1808C)
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.TopEnd)
+        ) {
+            Spacer(modifier = Modifier.padding(34.dp))
+            Icon(
+                modifier = Modifier.size(40.dp, 40.dp).weight(1f),
+                imageVector = Icons.TwoTone.Delete,
+                tint = Color(0xFFEB0909),
+                contentDescription = null,
+
+                )
+            Text(
+                text = ": Icono para eliminar ticket.", fontSize = 12.sp,
+                modifier = Modifier.weight(7f),
+                color = Color(0xFFD1808C)
+            )
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.TopEnd)
+        ) {
+
+            Spacer(modifier = Modifier.padding(34.dp))
+            Icon(
+                modifier = Modifier.size(40.dp, 40.dp).weight(1f),
+                imageVector = Icons.TwoTone.CleaningServices,
+                tint = Color(0xFF49F19A),
+                contentDescription = null,
+
+                )
+            Text(
+                text = ": Icono para limpiar los campos.", fontSize = 12.sp,
+                modifier = Modifier.weight(7f),
+                color = Color(0xFFD1808C)
+            )
+
+        }
+
+        Spacer(modifier = Modifier.padding(8.dp))
         Text(
             text = "Estatus:", fontSize = 20.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -131,7 +191,7 @@ fun AcercadeScreen(viewModel: TicketViewModel = hiltViewModel(), navController: 
             )
         }
 
-        Spacer(modifier = Modifier.padding(20.dp))
+        Spacer(modifier = Modifier.padding(12.dp))
         Text(
             text = " Nota: Necesitas conección a internet para el funcionamiento de la aplicacion.", fontSize = 10.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -140,7 +200,7 @@ fun AcercadeScreen(viewModel: TicketViewModel = hiltViewModel(), navController: 
         Spacer(modifier = Modifier.padding(8.dp))
         Divider(Modifier.fillMaxWidth())
 
-        Spacer(modifier = Modifier.padding(20.dp))
+        Spacer(modifier = Modifier.padding(12.dp))
         Text(
             text = " Segundo parcial programacion aplicada 2, Modificar Tickets con Api.", fontSize = 12.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)

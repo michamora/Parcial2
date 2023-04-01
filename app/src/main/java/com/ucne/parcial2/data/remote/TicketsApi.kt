@@ -9,10 +9,10 @@ interface TicketsApi{
     suspend fun getTickets(): List<TicketDto>
     @GET("/api/tickets/{id}")
     suspend fun getTicketsbyId(@Path("id") id: Int):TicketDto
-    @POST("/api/Tickets")
-    suspend fun postTicket(ticketsDto: TicketDto)
+    @POST("api/Tickets")
+    suspend fun postTicket(@Body ticketDto: TicketDto): TicketDto
     @PUT("/api/Tickets/{id}")
-    suspend fun putTicket(@Path("id") id: Int, @Body ticketsDto: TicketDto):Response<Unit>
+    suspend fun putTicket(@Path("id") id: Int, @Body ticketDto: TicketDto):Response<Unit>
     @DELETE("/api/Tickets/{id}")
     suspend fun deleteTicket(@Path("id") id: Int)
 }

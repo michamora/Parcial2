@@ -46,23 +46,6 @@ fun TicketsScreen(
     }
 
 
-
-    val anio: Int
-    val mes: Int
-    val dia: Int
-
-    val mCalendar = Calendar.getInstance()
-    anio = mCalendar.get(Calendar.YEAR)
-    mes = mCalendar.get(Calendar.MONTH)
-    dia = mCalendar.get(Calendar.DAY_OF_MONTH)
-
-    val myFecha = DatePickerDialog(
-        LocalContext.current, { _: DatePicker, anio: Int, mes: Int, dia: Int ->
-            viewModel.fecha = "$dia/${mes + 1}/$anio"
-        }, anio, mes, dia
-    )
-
-
     Column(modifier = Modifier.fillMaxWidth())
     {
         Spacer(Modifier.height(20.dp))
@@ -152,7 +135,6 @@ fun TicketsScreen(
         }
 
 
-
         OutlinedTextField(modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth(),
@@ -183,27 +165,6 @@ fun TicketsScreen(
             )
         }
 
-
-        OutlinedTextField(modifier = Modifier // Fecha
-            .padding(8.dp)
-            .fillMaxWidth(),
-            value = viewModel.fecha,
-            onValueChange = { viewModel.fecha},
-            enabled = false,
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Filled.DateRange,
-                    contentDescription = null,
-                    tint = Color(0xFFB79DF3),
-                    modifier = Modifier
-                        .size(33.dp)
-                        .padding(4.dp)
-                        .clickable {
-                            myFecha.show()
-                        })
-            },
-            label = { Text(text = "Fecha") }
-        )
 
         OutlinedTextField(   //Estatus
             modifier = Modifier
@@ -247,7 +208,7 @@ fun TicketsScreen(
                 text = viewModel.tipoEstatusError,
                 color = MaterialTheme.colorScheme.error,
 
-            )
+                )
         }
 
 
@@ -290,11 +251,11 @@ fun TicketsScreen(
                 icon = {
                     Icon(
                         imageVector = Icons.TwoTone.CleaningServices,
-                        contentDescription = "Save"
+                        contentDescription = "Clean"
                     )
                 },
                 onClick = {
-                    viewModel.limpiar()
+                    viewModel.Clean()
 
                 }
             )
@@ -308,15 +269,16 @@ fun TicketsScreen(
                 icon = { Icon(imageVector = Icons.TwoTone.Save, contentDescription = "Save") },
                 onClick = {
 
-                    if (viewModel.HayErrores()) {
-                        viewModel.asuntoError = ""
-                        if (viewModel.asunto.isBlank()) {
-                            viewModel.asuntoError = "  Debe indicar el asunto"
-                        }
+                    if (viewModel.HayErroresModificando()) {
 
                         viewModel.empresaError = ""
                         if (viewModel.empresa.isBlank()) {
                             viewModel.empresaError = "  Debe indicar la empresa"
+                        }
+
+                        viewModel.asuntoError = ""
+                        if (viewModel.asunto.isBlank()) {
+                            viewModel.asuntoError = "  Debe indicar el asunto"
                         }
 
                         viewModel.especificacionesError = ""
@@ -327,39 +289,16 @@ fun TicketsScreen(
                         viewModel.tipoEstatusError = ""
                         if (viewModel.estatus.isBlank()) {
                             viewModel.tipoEstatusError = "  Debe seleccionar un estatus"
-
                         }
-
 
                     } else {
-                        if (ticketId == 0) {
-                            viewModel.postTickets(ticketId)
-                            onSaveClick()
-                        } else {
-                            viewModel.putTicket(ticketId)
-                            onSaveClick()
-                        }
+                        viewModel.putTicket()
+                        navController.navigate(Screen.TicketsList.route)
+                        onSaveClick()
 
                     }
-
                 }
             )
-
-
-            Column(Modifier.fillMaxSize()) {
-                Icon(
-                    imageVector = Icons.TwoTone.Delete,
-                    contentDescription = null,
-                    tint = Color(0xCDFF1F1F),
-                    modifier = Modifier
-                        .align(Alignment.End)
-                        .size(50.dp, 50.dp)
-                        .clickable {
-                            viewModel.deleteTicket(ticketId)
-                            onSaveClick()
-                        }
-                )
-            }
 
         }
     }
