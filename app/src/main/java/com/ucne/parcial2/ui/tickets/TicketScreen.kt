@@ -1,20 +1,17 @@
 package com.ucne.parcial2.ui.tickets
 
-import android.app.DatePickerDialog
+
 import android.os.Build
-import android.widget.DatePicker
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.twotone.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -23,8 +20,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ucne.parcial2.Screen
 import kotlinx.coroutines.launch
-
 import java.util.*
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -79,6 +76,7 @@ fun TicketsScreen(
                 .fillMaxWidth(),
             value = viewModel.empresa,
             onValueChange = viewModel::onEmpresaChanged,
+            singleLine = true,
             leadingIcon = {
                 Icon(
                     imageVector = Icons.TwoTone.Domain,
@@ -109,6 +107,7 @@ fun TicketsScreen(
             .fillMaxWidth(),
             value = viewModel.asunto,
             onValueChange = viewModel::onAsuntoChanged,
+            singleLine = true,
             leadingIcon = {
                 Icon(
                     imageVector = Icons.TwoTone.ReceiptLong,
@@ -140,6 +139,7 @@ fun TicketsScreen(
             .fillMaxWidth(),
             value = viewModel.especificaciones,
             onValueChange = viewModel::onEspecificacionesChanged,
+            singleLine = true,
             leadingIcon = {
                 Icon(
                     imageVector = Icons.TwoTone.EmojiObjects,
